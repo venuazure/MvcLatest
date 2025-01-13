@@ -44,9 +44,9 @@ stages:
         publishWebProjects: True
         arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
         zipAfterpublish: True
-  -job: PublishToArtifact
-   steps:
-   - task: PublishPipelineArtifact@1
-     inputs: 
-       targetPath: '$(Build.ArtifactStagingDirectory)'
-       artifactName: 'FirstWebsite'
+  - job: PublishToArtifact
+    steps:
+    - task: PublishPipelineArtifact@1
+      inputs: 
+        targetPath: '$(Build.ArtifactStagingDirectory)'
+        artifactName: 'FirstWebsite'
