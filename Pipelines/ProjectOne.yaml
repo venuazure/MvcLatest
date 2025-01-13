@@ -12,24 +12,24 @@ stages:
     steps:
     - checkout: self
       displayName: 'Checkout code from main branch'
-  - job: Install-Net-Core-SDK
+  - job: Install_Net_Core_SDK
     steps:
     - task: UseDotNet@2
       inputs:
         version: '8.0.x'
         displayName: 'Install .NET Core SDK'
         installationPath: '$(Agent.ToolsDirectory)/dotnet'
-  - job: Restore-NuGet-Packages
+  - job: Restore_NuGet_Packages
     steps:
     - task: DotNetCoreCLI@2
       inputs:
         command: 'restore'
         projects: '**/*.csproj'
-      displayName: 'Restore-NuGet-Packages'
+      displayName: 'Restore_NuGet_Packages'
   - job: 
     steps:
     - task: DoNetCoreCLO@2
       inputs:
         command: 'build'
         projects: '**/*.csproj'
-        displayName: 'Build-Project'
+        displayName: 'Build_Project'
