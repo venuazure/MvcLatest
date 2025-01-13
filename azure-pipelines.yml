@@ -19,7 +19,7 @@ stages:
         version: '8.0.x'
         displayName: 'Install .NET Core SDK'
         installationPath: '$(Agent.ToolsDirectory)/dotnet'
-  - job: Restore NuGet Packages
+  - job: RestoreNuGetPackages
     steps:
     - task: DotNetCoreCLI@2
       inputs:
