@@ -17,6 +17,7 @@ stages:
     - task: UseDotNet@2
       inputs:
         version: '8.0.x'
+        dependsOn: Checkout
         displayName: 'Install .NET Core SDK'
         installationPath: '$(Agent.ToolsDirectory)/dotnet'
   - job: Restore_NuGet_Packages
@@ -24,12 +25,28 @@ stages:
     - task: DotNetCoreCLI@2
       inputs:
         command: 'restore'
+        dependsOn: Install_Net_Core_SDK
         projects: '**/*.csproj'
       displayName: 'Restore_NuGet_Packages'
-  - job: 
+  - job: Build_Project
     steps:
     - task: DotNetCoreCLI@2
       inputs:
         command: 'build'
+        dependsOn: Restore_NuGet_Packages
         projects: '**/*.csproj'
         displayName: 'Build_Project'
+  - job: Publish
+    steps:
+    - task: DotNetCoreCLI@2
+      inputs: 
+        command: publish
+        publishWebProjects: True
+        arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+        zipAfterpublish: True
+  -job: PublishPipelineArtifact
+   steps:
+   - task: PublishPipelineArtifact@1
+     inputs: 
+       targetPath: '$(Build.ArtifactStagingDirectory)'
+       artifactName: 'FirstWebsite'
