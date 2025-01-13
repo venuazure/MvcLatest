@@ -1,0 +1,29 @@
+trigger:
+- Main
+pool:
+  vmImage: 'windows-latest'
+variables:
+  buildConfiguration: 'Release'  
+stages:
+- stage: BuildStage
+  displayName: 'Stage - Build'
+  jobs:
+  - job: Checkout
+    steps:
+    - checkout: self
+      displayName: 'Checkout code from main branch'
+  - job: Build
+    steps:
+    - task: UseDotNet@2
+      inputs:
+        version: '8.0.x'
+        displayName: 'Install .NET Core SDK'
+        installationPath: '$(Agent.ToolsDirectory)/dotnet'
+  - job: Restore NuGet Packages
+    steps:
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: 'restore'
+        projects: '**/*.csproj'
+      displayName: ' Restore NuGet Packages'
+  - job: 
